@@ -9,14 +9,10 @@ df = pd.read_csv('meter_data.csv')
 df['Date'] = pd.to_datetime(df['Date'])
 df = df.drop_duplicates() # Remove that duplicate row
 df['Consumption_kWh'] = df['Consumption_kWh'].fillna(df['Consumption_kWh'].mean()) # Fix missing value
+df["Cost"] = df['Consumption_kWh']*0.30
 
 # 3. Save for Power BI
 df.to_csv('cleaned_data.csv', index=False)
 print("Success! cleaned_data.csv created.")
-
-# 4. Generate a quick chart (The "Visual" Bonus)
 daily_total = df.groupby('Date')['Consumption_kWh'].sum()
-daily_total.plot(kind='bar', color='orange')
-plt.title('Daily Energy Consumption')
-plt.savefig('energy_chart.png')
-print("Chart saved as energy_chart.png")
+print(df)
